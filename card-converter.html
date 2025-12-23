@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tyco 32-bit Card Converter | Gruber Advanced Technologies</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8fafc;
+    color: #333;
+}
+
+/* Shared layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1e3a8a;
+    text-decoration: none;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.nav-menu a:hover {
+    color: #1e3a8a;
+}
+
+.contact-btn {
+    background: #1e3a8a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Page content */
+.page {
+    padding: 140px 0 80px;
+}
+
+.page h1 {
+    font-size: 2.8rem;
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 1rem;
+}
+
+.page p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+/* Calculator card */
+.calculator {
+    background: white;
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.calculator label {
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.calculator input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.calculator button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background: #1e3a8a;
+    color: white;
+    border: none;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.calculator button:hover {
+    background: #1e40af;
+}
+
+.result {
+    margin-top: 25px;
+    background: #eef2ff;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: monospace;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background: #1f2937;
+    color: white;
+    padding: 40px 0 20px;
+    margin-top: 80px;
+}
+
+.footer-bottom {
+    text-align: center;
+    color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-content">
+            <a href="index.html" class="logo">Gruber Advanced Technologies</a>
+            <nav class="nav-menu">
+                <a href="index.html#services">Services</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#industries">Industries</a>
+                <a href="index.html">Home</a>
+            </nav>
+            <a href="index.html#contact" class="contact-btn">Contact</a>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <div class="container">
+        <h1>Tyco 32-bit Card Converter</h1>
+        <p>Convert Facility Code and Card Number into Tyco 32-bit HEX format.</p>
+
+        <div class="calculator">
+            <label>Facility Code (0–65535)</label>
+            <input type="number" id="facility" placeholder="e.g. 643">
+
+            <label>Card Number (0–65535)</label>
+            <input type="number" id="card" placeholder="e.g. 14783">
+
+            <button onclick="convert()">Convert</button>
+
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-bottom">
+            &copy; 2025 Gruber Advanced Technologies. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+function convert() {
+    const f = Number(document.getElementById("facility").value);
+    const c = Number(document.getElementById("card").value);
+
+    if (f < 0 || f > 65535 || c < 0 || c > 65535) {
+        document.getElementById("result").innerHTML =
+            "❌ Values must be between 0 and 65535";
+        return;
+    }
+
+    const value = (f << 16) + c;
+    const hex32 = value.toString(16).toUpperCase().padStart(8, "0");
+    const readerHex = "000000" + hex32;
+
+    document.getElementById("result").innerHTML =
+        "32-bit HEX: <b>" + hex32 + "</b><br>" +
+        "Reader HEX: <b>" + readerHex + "</b>";
+}
+</script>
+
+</body>
+</html>
